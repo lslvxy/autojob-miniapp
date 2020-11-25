@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EverPhotoAccountRepository extends JpaRepository<EverPhotoAccount, Long> {
-    EverPhotoAccount findByUserId(Long userId);
+    EverPhotoAccount findByUserId(String userId);
 
 }

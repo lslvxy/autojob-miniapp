@@ -4,9 +4,11 @@ import lombok.Data;
 
 @Data
 public class EverPhotoJobDTO {
-    private String account;
-    private String password;
-    private Integer timeHour = 1;
-    private Integer timeMin;
+
+    private String  userId;
+    private String  account;
+    private String  password;
+    private Integer hour = 0;
+    private Integer mins = 0;
 
 }

@@ -20,7 +20,7 @@ public class LogController extends BaseController {
 
     @RequestMapping("view")
     public ModelAndView login(ModelAndView modelAndView, HttpServletRequest request) {
-        final Long userId = super.getUserIdByRequest(request);
+        final String userId = super.getUserIdByRequest(request);
         EventLog el = new EventLog();
         el.setUserId(userId);
         Example<EventLog> ex = Example.of(el);

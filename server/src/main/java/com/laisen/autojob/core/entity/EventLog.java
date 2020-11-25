@@ -17,7 +17,7 @@ public class EventLog {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private Long userId;
+    private String userId;
     private String detail;
 
     @CreatedDate

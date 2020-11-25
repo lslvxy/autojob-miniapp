@@ -22,7 +22,7 @@ public class EverPhotoAccount {
     @UpdateTimestamp
     private Date gmtModified;
 
-    private Long userId;
+    private String userId;
 
     private String account;
 

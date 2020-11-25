@@ -22,7 +22,7 @@ public class QuartzBean {
     @UpdateTimestamp
     private Date gmtModified;
 
-    private Long userId;
+    private String userId;
     /**
      * 任务名称
      */

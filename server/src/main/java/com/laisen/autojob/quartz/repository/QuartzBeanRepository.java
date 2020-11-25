@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface QuartzBeanRepository extends JpaRepository<QuartzBean, Long> {
-    QuartzBean findByUserId(Long userId);
+    QuartzBean findByUserId(String userId);
 }

@@ -16,7 +16,7 @@ public class EverPhotoJob extends QuartzJobBean {
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
         final String name = jobExecutionContext.getJobDetail().getKey().getName();
         try {
-            autoCheckInService.autoCheckin(Long.valueOf(name.replace("everphoto.job.", "")));
+            autoCheckInService.autoCheckin((name.replace("everphoto.job.", "")));
         } catch (Exception e) {
 
         }

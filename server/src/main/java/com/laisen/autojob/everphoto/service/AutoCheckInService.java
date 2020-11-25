@@ -8,7 +8,11 @@ import com.laisen.autojob.everphoto.Result;
 import com.laisen.autojob.everphoto.entity.EverPhotoAccount;
 import com.laisen.autojob.everphoto.repository.EverPhotoAccountRepository;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.*;
+import okhttp3.FormBody;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -26,12 +30,12 @@ public class AutoCheckInService {
     @Autowired
     EverPhotoAccountRepository everPhotoAccountRepository;
     @Autowired
-    EventLogRepository eventLogRepository;
+    EventLogRepository         eventLogRepository;
 
-    static String url = "https://api.everphoto.cn/users/self/checkin/v2";
+    static String url      = "https://api.everphoto.cn/users/self/checkin/v2";
     static String urllogin = "https://web.everphoto.cn/api/auth";
 
-    public Result autoCheckin(Long id) {
+    public Result autoCheckin(String id) {
         try {
             final EverPhotoAccount everPhotoAccount = everPhotoAccountRepository.findByUserId(id);
             if (Objects.isNull(everPhotoAccount)) {
@@ -88,7 +92,7 @@ public class AutoCheckInService {
     }
 
     private String login(String account, String password) throws IOException {
-//        String md5 = DigestUtils.md5DigestAsHex(base.getBytes());
+        //        String md5 = DigestUtils.md5DigestAsHex(base.getBytes());
 
         OkHttpClient client = new OkHttpClient();
         RequestBody body = new FormBody.Builder().add("mobile", account).add("password", password).build();

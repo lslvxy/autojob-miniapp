@@ -12,28 +12,28 @@ import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/everphoto/")
+@RequestMapping("everphoto")
 public class EverphotoController extends BaseController {
     @Autowired
-    private Scheduler scheduler;
+    private Scheduler                  scheduler;
     @Autowired
-    private QuartzBeanRepository quartzBeanRepository;
+    private QuartzBeanRepository       quartzBeanRepository;
     @Autowired
     private EverPhotoAccountRepository everPhotoAccountRepository;
 
     @PostMapping("/create")
     @ResponseBody
-    public String createJob(HttpServletRequest request, EverPhotoJobDTO dto) {
+    public String createJob(@RequestBody EverPhotoJobDTO dto) {
         try {
-            final Long userId = super.getUserIdByRequest(request);
+            final String userId = dto.getUserId();
             if (Objects.isNull(userId)) {
                 return "用户信息不正确";
             }
@@ -63,8 +63,8 @@ public class EverphotoController extends BaseController {
             quartzBean.setJobClass(EverPhotoJob.class.getName());
             quartzBean.setJobName("everphoto.job." + userId);
             //"0 0 12 * * ?" 每天中午12点触发
-            quartzBean.setCronExpression("0 0/20 " + dto.getTimeHour() + " * * ?");
-//            quartzBean.setCronExpression("*/10 * * * * ?");
+            quartzBean.setCronExpression("0 " + dto.getMins() + " " + dto.getHour() + " * * ?");
+            //            quartzBean.setCronExpression("*/10 * * * * ?");
 
             quartzBeanRepository.save(quartzBean);
 
@@ -79,7 +79,7 @@ public class EverphotoController extends BaseController {
 
     @PostMapping("/delete")
     @ResponseBody
-    public String deleteJob(Long userId) {
+    public String deleteJob(String userId) {
         try {
             QuartzBean quartzBean = quartzBeanRepository.findByUserId(userId);
             if (!Objects.isNull(quartzBean)) {

@@ -1,0 +1,27 @@
+<!--pages/everphoto/everphoto.wxml-->
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <mp-form-page title="时光相册">
+    <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+    <view class="page_bd">
+      <mp-form id="form" rules="{{rules}}" models="{{formData}}">
+        <mp-cells title="" footer="">
+          <mp-cell prop="account" title="手机(+86)" ext-class="">
+            <input bindinput="formInputChange" data-field="account" class="weui-input" placeholder="请输入账号" />
+          </mp-cell>
+          <mp-cell prop="password" title="密码" ext-class="">
+            <input bindinput="formInputChange" type="password" data-field="password" class="weui-input"
+              placeholder="请输入密码" />
+          </mp-cell>
+          <mp-cell prop="time" title="执行时间" ext-class="">
+            <picker data-field="date" mode="time" value="{{runTime}}" bindchange="bindDateChange">
+              <view class="weui-input">{{runTime}}</view>
+            </picker>
+          </mp-cell>
+        </mp-cells>
+      </mp-form>
+    </view>
+    <view slot="button">
+      <button class="weui-btn" form-type="submit" type="primary" bindtap="submitForm">保存</button>
+    </view>
+  </mp-form-page>
+</view>

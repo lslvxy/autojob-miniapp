@@ -1,2 +1,17 @@
 <!--pages/main/main.wxml-->
-<text>pages/main/main.wxml</text>
+<view class="page">
+  <view class="page_bd">
+    <mp-cells title="支持列表">
+      <mp-cell link hover url="/pages/everphoto/everphoto" value="时光相册" footer="配置">
+        <image slot="icon" src="/assets/sg.jpeg"
+          style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;">
+        </image>
+      </mp-cell>
+      <mp-cell link value="天翼网盘" footer="开发中">
+        <image slot="icon" src="/assets/ty.png"
+          style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;">
+        </image>
+      </mp-cell>
+    </mp-cells>
+  </view>
+</view>
