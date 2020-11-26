@@ -75,9 +75,25 @@ Page({
           header: {
             'content-type': 'application/json' // 默认值
           },
-          success(res) {
-            debugger
-          }
+          success(res) {}
+        })
+      }
+    })
+  },
+  deleteAccount() {
+    var _this = this;
+    wx.request({
+      url: app.globalData.baseUrl + '/everphoto/delete', //仅为示例，并非真实的接口地址
+      method: 'POST',
+      data: {
+        userId: app.globalData.openId,
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success(res) {
+        wx.navigateTo({
+          url: '../main/main'
         })
       }
     })
@@ -93,7 +109,29 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady: function () {
+    var _this = this;
 
+    wx.request({
+      url: app.globalData.baseUrl + '/everphoto/get', //仅为示例，并非真实的接口地址
+      method: 'POST',
+      data: {
+        userId: app.globalData.openId,
+      },
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success(res) {
+        var fd = {
+          account: res.data.account,
+          password: res.data.password,
+          time: res.data.time
+        }
+        _this.setData({
+          formData: fd,
+          runTime: res.data.time,
+        })
+      }
+    })
   },
 
   /**

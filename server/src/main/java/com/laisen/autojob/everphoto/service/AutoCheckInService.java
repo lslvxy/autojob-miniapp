@@ -21,7 +21,10 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import java.util.zip.GZIPInputStream;
 
 @Service
@@ -35,42 +38,44 @@ public class AutoCheckInService {
     static String url      = "https://api.everphoto.cn/users/self/checkin/v2";
     static String urllogin = "https://web.everphoto.cn/api/auth";
 
-    public Result autoCheckin(String id) {
-        try {
-            final EverPhotoAccount everPhotoAccount = everPhotoAccountRepository.findByUserId(id);
-            if (Objects.isNull(everPhotoAccount)) {
-                throw new RuntimeException("用户未配置");
-            }
-            String token = "";
-            String login = login(everPhotoAccount.getAccount(), everPhotoAccount.getPassword());
-            final JSONObject loginResult = JSON.parseObject(login);
-            if (!loginResult.getInteger("code").equals(0) || !loginResult.containsKey("data")) {
-                throw new RuntimeException("登录失败");
-            }
-            final JSONObject loginData = loginResult.getJSONObject("data");
-            if (loginData.containsKey("token")) {
-                token = loginData.getString("token");
-                log.info("登录成功,token={}", token);
-            }
-            if (StringUtils.isEmpty(token)) {
-                throw new RuntimeException("获取token失败");
-            }
-            final JSONObject checkinResponse = JSON.parseObject(checkin(token));
-            if (!checkinResponse.getInteger("code").equals(0) || !checkinResponse.containsKey("data")) {
-                throw new RuntimeException("签到失败");
-            }
-            final JSONObject checkinData = checkinResponse.getJSONObject("data");
-            Result result = checkinData.toJavaObject(Result.class);
-            EventLog l = new EventLog();
-            l.setUserId(id);
-            l.setDetail(JSON.toJSONString(result));
-            eventLogRepository.save(l);
-            return result;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    public Result autoCheckin(String id) throws Exception {
 
-        return null;
+        EventLog l = new EventLog();
+        final EverPhotoAccount everPhotoAccount = everPhotoAccountRepository.findByUserId(id);
+        if (Objects.isNull(everPhotoAccount)) {
+            throw new RuntimeException("用户未配置");
+        }
+        String token = "";
+        String login = login(everPhotoAccount.getAccount(), everPhotoAccount.getPassword());
+        final JSONObject loginResult = JSON.parseObject(login);
+        if (Objects.isNull(loginResult) || !loginResult.getInteger("code").equals(0) || !loginResult.containsKey("data")) {
+            throw new RuntimeException("登录失败");
+        }
+        final JSONObject loginData = loginResult.getJSONObject("data");
+        if (loginData.containsKey("token")) {
+            token = loginData.getString("token");
+            log.info("登录成功,token={}", token);
+        }
+        if (StringUtils.isEmpty(token)) {
+            throw new RuntimeException("获取token失败");
+        }
+        final JSONObject checkinResponse = JSON.parseObject(checkin(token));
+        if (!checkinResponse.getInteger("code").equals(0) || !checkinResponse.containsKey("data")) {
+            throw new RuntimeException("签到失败");
+        }
+        final JSONObject checkinData = checkinResponse.getJSONObject("data");
+        Result result = checkinData.toJavaObject(Result.class);
+        l.setUserId(id);
+        List<String> detail = new LinkedList<>();
+        detail.add("签到结果:" + (result.getCheckin_result().equals("true") ? "成功" : "失败"));
+        detail.add("累计签到:" + (result.getContinuity()) + "天");
+        detail.add("总容量:" + (result.getTotal_reward() / 1024 / 1024) + "MB");
+        detail.add("明日可得:" + (result.getTomorrow_reward() / 1024 / 1024) + "MB");
+        l.setDetail(detail.stream().collect(Collectors.joining("；")));
+        l.setType("everPhoto");
+        eventLogRepository.save(l);
+        return result;
+
     }
 
     private String checkin(String token) throws IOException {

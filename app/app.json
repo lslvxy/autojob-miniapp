@@ -3,7 +3,8 @@
     "pages/index/index",
     "pages/logs/logs",
     "pages/main/main",
-    "pages/everphoto/everphoto"
+    "pages/everphoto/everphoto",
+    "pages/everphoto_log/everphoto_log"
   ],
   "window": {
     "backgroundTextStyle": "light",

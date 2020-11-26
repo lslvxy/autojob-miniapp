@@ -35,9 +35,12 @@ public class AutojobApplication implements CommandLineRunner {
     public void run(String... args) throws Exception {
         final List<QuartzBean> all = quartzBeanRepository.findAll();
         all.forEach(v -> {
-            QuartzUtils.createScheduleJob(scheduler, v);
+            try {
+                QuartzUtils.createScheduleJob(scheduler, v);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
-
 
 //        System.out.println(autoCheckInService.autoCheckin(2L));
     }

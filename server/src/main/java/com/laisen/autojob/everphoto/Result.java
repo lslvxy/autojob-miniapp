@@ -11,7 +11,7 @@ public class Result {
     private String reward;
     private String promtp;
     private Long total_reward;
-    private String tomorrow_reward;
+    private Long tomorrow_reward;
     private String cache_time;
     private String checkin_push;
 

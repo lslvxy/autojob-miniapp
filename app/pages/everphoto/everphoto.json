@@ -5,6 +5,8 @@
     "mp-form": "/miniprogram_npm/weui-miniprogram/form/form",
     "mp-cell": "/miniprogram_npm/weui-miniprogram/cell/cell",
     "mp-cells": "/miniprogram_npm/weui-miniprogram/cells/cells",
-    "mp-toptips": "/miniprogram_npm/weui-miniprogram/toptips/toptips"
+    "mp-toptips": "/miniprogram_npm/weui-miniprogram/toptips/toptips",
+    "mp-icon": "/miniprogram_npm/weui-miniprogram/icon/icon"
+
   }
 }

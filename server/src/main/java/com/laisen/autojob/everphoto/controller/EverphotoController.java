@@ -1,6 +1,8 @@
 package com.laisen.autojob.everphoto.controller;
 
 import com.laisen.autojob.core.controller.BaseController;
+import com.laisen.autojob.core.entity.EventLog;
+import com.laisen.autojob.core.repository.EventLogRepository;
 import com.laisen.autojob.everphoto.dto.EverPhotoJobDTO;
 import com.laisen.autojob.everphoto.entity.EverPhotoAccount;
 import com.laisen.autojob.everphoto.repository.EverPhotoAccountRepository;
@@ -10,6 +12,10 @@ import com.laisen.autojob.quartz.repository.QuartzBeanRepository;
 import com.laisen.autojob.quartz.util.QuartzUtils;
 import org.quartz.Scheduler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.util.DigestUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,6 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @RestController
@@ -28,6 +37,8 @@ public class EverphotoController extends BaseController {
     private QuartzBeanRepository       quartzBeanRepository;
     @Autowired
     private EverPhotoAccountRepository everPhotoAccountRepository;
+    @Autowired
+    private EventLogRepository         eventLogRepository;
 
     @PostMapping("/create")
     @ResponseBody
@@ -52,6 +63,9 @@ public class EverphotoController extends BaseController {
                 everPhotoAccount.setAccount(dto.getAccount());
             }
             everPhotoAccount.setPassword(DigestUtils.md5DigestAsHex(("tc.everphoto." + dto.getPassword()).getBytes()));
+            everPhotoAccount.setTime(
+                    (dto.getHour() < 10 ? "0" + dto.getHour() : dto.getHour()) + ":" + (dto.getMins() < 10 ? "0" + dto.getMins()
+                            : dto.getMins()));
 
             everPhotoAccountRepository.save(everPhotoAccount);
 
@@ -67,8 +81,12 @@ public class EverphotoController extends BaseController {
             //            quartzBean.setCronExpression("*/10 * * * * ?");
 
             quartzBeanRepository.save(quartzBean);
+            try {
+                QuartzUtils.createScheduleJob(scheduler, quartzBean);
+            } catch (Exception e) {
+                QuartzUtils.updateScheduleJob(scheduler, quartzBean);
+            }
 
-            QuartzUtils.createScheduleJob(scheduler, quartzBean);
             QuartzUtils.runOnce(scheduler, quartzBean.getJobName());
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,14 +97,14 @@ public class EverphotoController extends BaseController {
 
     @PostMapping("/delete")
     @ResponseBody
-    public String deleteJob(String userId) {
+    public String deleteJob(@RequestBody EverPhotoJobDTO dto) {
         try {
-            QuartzBean quartzBean = quartzBeanRepository.findByUserId(userId);
+            QuartzBean quartzBean = quartzBeanRepository.findByUserId(dto.getUserId());
             if (!Objects.isNull(quartzBean)) {
                 QuartzUtils.deleteScheduleJob(scheduler, quartzBean.getJobName());
                 quartzBeanRepository.delete(quartzBean);
             }
-            final EverPhotoAccount everPhotoAccount = everPhotoAccountRepository.findByUserId(userId);
+            final EverPhotoAccount everPhotoAccount = everPhotoAccountRepository.findByUserId(dto.getUserId());
             if (!Objects.isNull(everPhotoAccount)) {
                 everPhotoAccountRepository.delete(everPhotoAccount);
             }
@@ -98,4 +116,34 @@ public class EverphotoController extends BaseController {
         return "删除成功";
     }
 
+    @PostMapping("/get")
+    @ResponseBody
+    public Map getDetail(@RequestBody EverPhotoJobDTO dto) {
+        EverPhotoAccount everPhotoAccount = everPhotoAccountRepository.findByUserId(dto.getUserId());
+        Map<String, String> result = new HashMap<>();
+        if (!Objects.isNull(everPhotoAccount)) {
+            result.put("account", everPhotoAccount.getAccount());
+            result.put("password", "******");
+            result.put("time", everPhotoAccount.getTime());
+        } else {
+            result.put("account", "");
+            result.put("password", "");
+            result.put("time", "00:00");
+        }
+        return result;
+    }
+
+    @PostMapping("/log")
+    @ResponseBody
+    public List getLogs(@RequestBody EverPhotoJobDTO dto) {
+        EverPhotoAccount everPhotoAccount = everPhotoAccountRepository.findByUserId(dto.getUserId());
+        EventLog el = new EventLog();
+        el.setUserId(dto.getUserId());
+        el.setType("everPhoto");
+        Example<EventLog> ex = Example.of(el);
+        PageRequest page = PageRequest.of(0, 20, Sort.by(Direction.DESC, "gmtCreate"));
+        List<EventLog> logs = eventLogRepository.findAll(ex, page).toList();
+
+        return logs;
+    }
 }

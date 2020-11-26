@@ -27,5 +27,6 @@ public class EverPhotoAccount {
     private String account;
 
     private String password;
+    private String time;
 
 }
