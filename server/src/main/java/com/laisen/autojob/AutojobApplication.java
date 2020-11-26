@@ -1,5 +1,10 @@
 package com.laisen.autojob;
 
+import com.alibaba.fastjson.JSON;
+import com.laisen.autojob.core.service.MessageService;
+import com.laisen.autojob.core.service.dto.DataDetail;
+import com.laisen.autojob.core.service.dto.Message;
+import com.laisen.autojob.core.service.dto.ValueDetail;
 import com.laisen.autojob.everphoto.repository.EverPhotoAccountRepository;
 import com.laisen.autojob.everphoto.service.AutoCheckInService;
 import com.laisen.autojob.quartz.entity.QuartzBean;
@@ -23,11 +28,11 @@ public class AutojobApplication implements CommandLineRunner {
     }
 
     @Autowired
-    AutoCheckInService autoCheckInService;
+    AutoCheckInService         autoCheckInService;
     @Autowired
     EverPhotoAccountRepository everPhotoAccountRepository;
     @Autowired
-    private Scheduler scheduler;
+    private Scheduler            scheduler;
     @Autowired
     private QuartzBeanRepository quartzBeanRepository;
 
@@ -38,10 +43,9 @@ public class AutojobApplication implements CommandLineRunner {
             try {
                 QuartzUtils.createScheduleJob(scheduler, v);
             } catch (Exception e) {
-                e.printStackTrace();
             }
         });
 
-//        System.out.println(autoCheckInService.autoCheckin(2L));
+
     }
 }

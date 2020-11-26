@@ -4,6 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.laisen.autojob.core.entity.EventLog;
 import com.laisen.autojob.core.repository.EventLogRepository;
+import com.laisen.autojob.core.service.MessageService;
+import com.laisen.autojob.core.service.dto.DataDetail;
+import com.laisen.autojob.core.service.dto.Message;
+import com.laisen.autojob.core.service.dto.ValueDetail;
 import com.laisen.autojob.everphoto.Result;
 import com.laisen.autojob.everphoto.entity.EverPhotoAccount;
 import com.laisen.autojob.everphoto.repository.EverPhotoAccountRepository;
@@ -21,6 +25,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -34,6 +40,8 @@ public class AutoCheckInService {
     EverPhotoAccountRepository everPhotoAccountRepository;
     @Autowired
     EventLogRepository         eventLogRepository;
+    @Autowired
+    private MessageService messageService;
 
     static String url      = "https://api.everphoto.cn/users/self/checkin/v2";
     static String urllogin = "https://web.everphoto.cn/api/auth";
@@ -71,9 +79,21 @@ public class AutoCheckInService {
         detail.add("累计签到:" + (result.getContinuity()) + "天");
         detail.add("总容量:" + (result.getTotal_reward() / 1024 / 1024) + "MB");
         detail.add("明日可得:" + (result.getTomorrow_reward() / 1024 / 1024) + "MB");
-        l.setDetail(detail.stream().collect(Collectors.joining("；")));
+        String detail1 = detail.stream().collect(Collectors.joining("；"));
+        l.setDetail(detail1);
         l.setType("everPhoto");
         eventLogRepository.save(l);
+
+        Message message = new Message();
+        message.setTemplate_id("j5OIz1iUpiBpx_80xtO0fmmc92gL0MFqU81GH2mTe_Y");
+        message.setTouser(id);
+        DataDetail da = new DataDetail();
+        da.setThing1(new ValueDetail("时光相册签到"));
+        da.setDate2(new ValueDetail(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)));
+        da.setThing3(new ValueDetail(detail1));
+        da.setThing3(new ValueDetail("签到结果"));
+        message.setData(da);
+        messageService.sendMessage(JSON.toJSONString(message));
         return result;
 
     }

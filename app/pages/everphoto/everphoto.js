@@ -75,7 +75,14 @@ Page({
           header: {
             'content-type': 'application/json' // 默认值
           },
-          success(res) {}
+          success(res) {
+            wx.requestSubscribeMessage({
+              tmplIds: ['j5OIz1iUpiBpx_80xtO0fmmc92gL0MFqU81GH2mTe_Y'],
+              success(res) {
+
+              }
+            })
+          }
         })
       }
     })
