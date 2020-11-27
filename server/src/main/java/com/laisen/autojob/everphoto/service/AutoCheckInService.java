@@ -2,6 +2,7 @@ package com.laisen.autojob.everphoto.service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.laisen.autojob.core.constants.Constants;
 import com.laisen.autojob.core.entity.EventLog;
 import com.laisen.autojob.core.repository.EventLogRepository;
 import com.laisen.autojob.core.service.MessageService;
@@ -81,7 +82,7 @@ public class AutoCheckInService {
         detail.add("明日可得:" + (result.getTomorrow_reward() / 1024 / 1024) + "MB");
         String detail1 = detail.stream().collect(Collectors.joining("；"));
         l.setDetail(detail1);
-        l.setType("everPhoto");
+        l.setType(Constants.LOG_EVERPHOTO);
         eventLogRepository.save(l);
 
         Message message = new Message();

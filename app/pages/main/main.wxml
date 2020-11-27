@@ -7,7 +7,7 @@
           style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;">
         </image>
       </mp-cell>
-      <mp-cell link value="天翼网盘" footer="开发中">
+      <mp-cell link hover url="/pages/cloud189/cloud189" value="天翼网盘" footer="配置">
         <image slot="icon" src="/assets/ty.png"
           style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;">
         </image>

@@ -3,11 +3,12 @@ package com.laisen.autojob.cloud189.controller;
 import com.laisen.autojob.cloud189.entity.CloudAccount;
 import com.laisen.autojob.cloud189.repository.CloudAccountRepository;
 import com.laisen.autojob.cloud189.util.AESUtil;
+import com.laisen.autojob.core.constants.Constants;
 import com.laisen.autojob.core.controller.BaseController;
 import com.laisen.autojob.core.entity.EventLog;
 import com.laisen.autojob.core.repository.EventLogRepository;
 import com.laisen.autojob.everphoto.dto.EverPhotoJobDTO;
-import com.laisen.autojob.quartz.EverPhotoJob;
+import com.laisen.autojob.quartz.QuartzJob;
 import com.laisen.autojob.quartz.entity.QuartzBean;
 import com.laisen.autojob.quartz.repository.QuartzBeanRepository;
 import com.laisen.autojob.quartz.util.QuartzUtils;
@@ -74,8 +75,8 @@ public class Cloud189Controller extends BaseController {
                 quartzBean = new QuartzBean();
             }
             quartzBean.setUserId(userId);
-            quartzBean.setJobClass(EverPhotoJob.class.getName());
-            quartzBean.setJobName("cloud189.job." + userId);
+            quartzBean.setJobClass(QuartzJob.class.getName());
+            quartzBean.setJobName(Constants.JOB_PREFIX_CLOUD189 + userId);
             //"0 0 12 * * ?" 每天中午12点触发
             quartzBean.setCronExpression("0 " + dto.getMins() + " " + dto.getHour() + " * * ?");
             //            quartzBean.setCronExpression("*/10 * * * * ?");
@@ -138,7 +139,7 @@ public class Cloud189Controller extends BaseController {
     public List getLogs(@RequestBody EverPhotoJobDTO dto) {
         EventLog el = new EventLog();
         el.setUserId(dto.getUserId());
-        el.setType("cloud189");
+        el.setType(Constants.LOG_CLOUD189);
         Example<EventLog> ex = Example.of(el);
         PageRequest page = PageRequest.of(0, 20, Sort.by(Direction.DESC, "gmtCreate"));
         List<EventLog> logs = eventLogRepository.findAll(ex, page).toList();

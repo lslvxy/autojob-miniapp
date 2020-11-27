@@ -70,5 +70,6 @@ App({
     openId: null,
     userInfo: null,
     baseUrl: 'https://autojob.laysan.site'
+    // baseUrl: 'http://localhost:8080'
   }
 })

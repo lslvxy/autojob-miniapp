@@ -1,5 +1,5 @@
 {
-  "navigationBarTitleText": "时光相册",
+  "navigationBarTitleText": "天翼网盘",
   "usingComponents": {
     "mp-form-page": "/miniprogram_npm/weui-miniprogram/form-page/form-page",
     "mp-form": "/miniprogram_npm/weui-miniprogram/form/form",

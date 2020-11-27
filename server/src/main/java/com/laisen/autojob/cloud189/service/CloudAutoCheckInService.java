@@ -9,6 +9,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.laisen.autojob.cloud189.entity.CloudAccount;
 import com.laisen.autojob.cloud189.repository.CloudAccountRepository;
 import com.laisen.autojob.cloud189.util.AESUtil;
+import com.laisen.autojob.core.constants.Constants;
 import com.laisen.autojob.core.entity.EventLog;
 import com.laisen.autojob.core.repository.EventLogRepository;
 import com.laisen.autojob.core.service.MessageService;
@@ -85,7 +86,8 @@ public class CloudAutoCheckInService {
             }
         }).build();
         EventLog eventLog = new EventLog();
-        eventLog.setType("cloud189");
+        eventLog.setUserId(userId);
+        eventLog.setType(Constants.LOG_CLOUD189);
         CloudAccount account = cloudAccountRepository.findByUserId(userId);
         if (Objects.isNull(account)) {
             throw new RuntimeException("用户未配置");
@@ -251,10 +253,10 @@ public class CloudAutoCheckInService {
         String signInResult = response2.body().string();
         JSONObject jsonObject = JSON.parseObject(signInResult);
         if (jsonObject.getString("isSign").equals("false")) {
-            result = "未签到，签到获得" + jsonObject.getString("netdiskBonus") + "M空间;";
+            result = "未签到，签到获得" + jsonObject.getString("netdiskBonus") + "M空间";
             log.info(result);
         } else {
-            result = "已经签到过了，签到获得" + jsonObject.getString("netdiskBonus") + "M空间;";
+            result = "已经签到过了，签到获得" + jsonObject.getString("netdiskBonus") + "M空间";
             log.info(result);
         }
         return result;

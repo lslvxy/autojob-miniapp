@@ -4,7 +4,9 @@
     "pages/logs/logs",
     "pages/main/main",
     "pages/everphoto/everphoto",
-    "pages/everphoto_log/everphoto_log"
+    "pages/everphoto_log/everphoto_log",
+    "pages/cloud189/cloud189",
+    "pages/cloud189_log/cloud189_log"
   ],
   "window": {
     "backgroundTextStyle": "light",
