@@ -57,8 +57,8 @@ public class Cloud189Controller extends BaseController {
                 everPhotoAccount = new CloudAccount();
             }
             everPhotoAccount.setUserId(userId);
-            if (!dto.getAccount().startsWith("+86")) {
-                everPhotoAccount.setAccount("+86" + dto.getAccount());
+            if (dto.getAccount().startsWith("+86")) {
+                everPhotoAccount.setAccount(dto.getAccount().replace("+86", ""));
             } else {
                 everPhotoAccount.setAccount(dto.getAccount());
             }
