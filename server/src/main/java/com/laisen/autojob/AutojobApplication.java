@@ -1,10 +1,6 @@
 package com.laisen.autojob;
 
-import com.alibaba.fastjson.JSON;
-import com.laisen.autojob.core.service.MessageService;
-import com.laisen.autojob.core.service.dto.DataDetail;
-import com.laisen.autojob.core.service.dto.Message;
-import com.laisen.autojob.core.service.dto.ValueDetail;
+import com.laisen.autojob.cloud189.service.CloudAutoCheckInService;
 import com.laisen.autojob.everphoto.repository.EverPhotoAccountRepository;
 import com.laisen.autojob.everphoto.service.AutoCheckInService;
 import com.laisen.autojob.quartz.entity.QuartzBean;
@@ -32,20 +28,23 @@ public class AutojobApplication implements CommandLineRunner {
     @Autowired
     EverPhotoAccountRepository everPhotoAccountRepository;
     @Autowired
-    private Scheduler            scheduler;
+    private Scheduler               scheduler;
     @Autowired
-    private QuartzBeanRepository quartzBeanRepository;
+    private QuartzBeanRepository    quartzBeanRepository;
+    @Autowired
+    private CloudAutoCheckInService cloudAutoCheckInService;
 
     @Override
-    public void run(String... args) throws Exception {
-        final List<QuartzBean> all = quartzBeanRepository.findAll();
+    public void run(String... args) {
+
+        List<QuartzBean> all = quartzBeanRepository.findAll();
         all.forEach(v -> {
             try {
                 QuartzUtils.createScheduleJob(scheduler, v);
             } catch (Exception e) {
+                QuartzUtils.updateScheduleJob(scheduler, v);
             }
+            QuartzUtils.runOnce(scheduler, v.getJobName());
         });
-
-
     }
 }

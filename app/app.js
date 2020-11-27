@@ -69,6 +69,6 @@ App({
   globalData: {
     openId: null,
     userInfo: null,
-    baseUrl: 'http://localhost:8080'
+    baseUrl: 'https://autojob.laysan.site'
   }
 })
