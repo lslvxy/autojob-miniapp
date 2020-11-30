@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 public class DataDetail {
     private ValueDetail thing1;
+    private ValueDetail thing2;
     private ValueDetail date2;
     private ValueDetail thing3;
     private ValueDetail thing4;

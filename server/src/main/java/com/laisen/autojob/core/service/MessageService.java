@@ -8,11 +8,7 @@ import com.laisen.autojob.core.service.dto.Message;
 import com.laisen.autojob.core.service.dto.ValueDetail;
 import io.vavr.control.Try;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import okhttp3.*;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -50,18 +46,24 @@ public class MessageService {
 
     public void sendMessage(String userId, String type, String detail) {
         Message message = new Message();
-        message.setTemplate_id("j5OIz1iUpiBpx_80xtO0fmmc92gL0MFqU81GH2mTe_Y");
-        message.setTouser(userId);
+
+//        message.setTemplate_id("j5OIz1iUpiBpx_80xtO0fmmc92gL0MFqU81GH2mTe_Y");
+        message.setTemplate_id("UYmCUg__IsjSMNPEhsHYx440P84NanoSS1fABW2WApw");
+
         DataDetail da = new DataDetail();
         da.setThing1(new ValueDetail(type));
-        da.setDate2(new ValueDetail(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)));
-        da.setThing3(new ValueDetail(detail));
-        da.setThing4(new ValueDetail("签到结果"));
+//        da.setDate2(new ValueDetail(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)));
+//        da.setDate2(new ValueDetail(new Date()));
+        da.setThing2(new ValueDetail(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))));
+        da.setThing3(new ValueDetail(detail.length() > 20 ? detail.substring(20) : detail));
         message.setData(da);
 
+        message.setTouser(userId);
         String token = getToken();
+        message.setAccess_token(token);
         //String url="http://localhost:8080/logs/send";
-        String url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" + token;
+        String url = "https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token=" + token;
+//        String url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" + token;
         OkHttpClient client = new OkHttpClient();
         RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), JSON.toJSONString(message));
         Request request = new Request.Builder()
@@ -71,6 +73,7 @@ public class MessageService {
         AtomicReference<Response> response = new AtomicReference<>();
         Try.of(() -> {
             response.set(client.newCall(request).execute());
+            log.info("发送服务消息:{}", response.get().body().string());
             return response;
         }).andFinally(() -> response.get().close());
     }

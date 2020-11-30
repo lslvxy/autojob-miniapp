@@ -44,7 +44,7 @@ public class AutojobApplication implements CommandLineRunner {
             } catch (Exception e) {
                 QuartzUtils.updateScheduleJob(scheduler, v);
             }
-            QuartzUtils.runOnce(scheduler, v.getJobName());
+           // QuartzUtils.runOnce(scheduler, v.getJobName());
         });
     }
 }

@@ -9,11 +9,9 @@ import lombok.Data;
  */
 @Data
 public class ValueDetail {
-    private String value;
-    private String DATA;
+    private Object value;
 
-    public ValueDetail(String value) {
+    public ValueDetail(Object value) {
         this.value = value;
-        this.DATA = value;
     }
 }

@@ -6,15 +6,12 @@ import com.laisen.autojob.core.constants.Constants;
 import com.laisen.autojob.core.entity.EventLog;
 import com.laisen.autojob.core.repository.EventLogRepository;
 import com.laisen.autojob.core.service.MessageService;
+import com.laisen.autojob.core.utils.LogUtils;
 import com.laisen.autojob.modules.everphoto.Result;
 import com.laisen.autojob.modules.everphoto.entity.EverPhotoAccount;
 import com.laisen.autojob.modules.everphoto.repository.EverPhotoAccountRepository;
 import lombok.extern.slf4j.Slf4j;
-import okhttp3.FormBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
+import okhttp3.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -35,11 +32,11 @@ public class AutoCheckInService {
     @Autowired
     EverPhotoAccountRepository everPhotoAccountRepository;
     @Autowired
-    EventLogRepository         eventLogRepository;
+    EventLogRepository eventLogRepository;
     @Autowired
     private MessageService messageService;
 
-    static String url      = "https://api.everphoto.cn/users/self/checkin/v2";
+    static String url = "https://api.everphoto.cn/users/self/checkin/v2";
     static String urllogin = "https://web.everphoto.cn/api/auth";
 
     public Result autoCheckin(String id) throws Exception {
@@ -58,7 +55,8 @@ public class AutoCheckInService {
         final JSONObject loginData = loginResult.getJSONObject("data");
         if (loginData.containsKey("token")) {
             token = loginData.getString("token");
-            log.info("登录成功,token={}", token);
+//            log.info("登录成功,token={}", token);
+            LogUtils.info(log, Constants.LOG_MODULES_EVERPHOTO, Constants.LOG_OPERATE_LOGIN, "{}登录成功", everPhotoAccount.getAccount());
         }
         if (StringUtils.isEmpty(token)) {
             throw new RuntimeException("获取token失败");
@@ -79,7 +77,7 @@ public class AutoCheckInService {
         l.setDetail(detail1);
         l.setType(Constants.LOG_TYPE_EVERPHOTO);
         eventLogRepository.save(l);
-        log.info("时光相册签到:{}", detail1);
+        LogUtils.info(log, Constants.LOG_MODULES_EVERPHOTO, Constants.LOG_OPERATE_CHECKIN, "{},{}", everPhotoAccount.getAccount(), detail1);
 
         messageService.sendMessage(id, "时光相册签到", detail1);
         return result;

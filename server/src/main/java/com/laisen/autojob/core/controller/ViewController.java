@@ -6,11 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class ViewController {
 
-    //@RequestMapping(value = "/")
-    //public String index() {
-    //    return "index";
-    //}
-    //
+    @RequestMapping(value = "/ok")
+    public String index() {
+        return "ok";
+    }
+
     //@RequestMapping(value = "/main")
     //public String main() {
     //    return "main";

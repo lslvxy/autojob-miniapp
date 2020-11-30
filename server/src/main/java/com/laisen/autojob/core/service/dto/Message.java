@@ -9,9 +9,8 @@ import lombok.Data;
  */
 @Data
 public class Message {
-    private String     touser;
-    private String     template_id;
-    private String     lang = "zh_CN";
+    private String access_token;
+    private String touser;
+    private String template_id;
     private DataDetail data;
-
 }

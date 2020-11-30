@@ -70,6 +70,6 @@ App({
     openId: null,
     userInfo: null,
     baseUrl: 'https://autojob.laisen.site'
-    // baseUrl: 'http://localhost:8080'
+    // baseUrl: 'http://192.168.1.6:8080'
   }
 })
