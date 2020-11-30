@@ -6,9 +6,6 @@ import com.laisen.autojob.core.constants.Constants;
 import com.laisen.autojob.core.entity.EventLog;
 import com.laisen.autojob.core.repository.EventLogRepository;
 import com.laisen.autojob.core.service.MessageService;
-import com.laisen.autojob.core.service.dto.DataDetail;
-import com.laisen.autojob.core.service.dto.Message;
-import com.laisen.autojob.core.service.dto.ValueDetail;
 import com.laisen.autojob.everphoto.Result;
 import com.laisen.autojob.everphoto.entity.EverPhotoAccount;
 import com.laisen.autojob.everphoto.repository.EverPhotoAccountRepository;
@@ -26,8 +23,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -76,7 +71,7 @@ public class AutoCheckInService {
         Result result = checkinData.toJavaObject(Result.class);
         l.setUserId(id);
         List<String> detail = new LinkedList<>();
-        detail.add("签到结果:" + (result.getCheckin_result().equals("true") ? "成功" : "失败"));
+        detail.add("签到结果:" + (result.getCheckin_result().equals("true") ? "成功" : "失败(今日已签到)"));
         detail.add("累计签到:" + (result.getContinuity()) + "天");
         detail.add("总容量:" + (result.getTotal_reward() / 1024 / 1024) + "MB");
         detail.add("明日可得:" + (result.getTomorrow_reward() / 1024 / 1024) + "MB");
@@ -85,16 +80,7 @@ public class AutoCheckInService {
         l.setType(Constants.LOG_EVERPHOTO);
         eventLogRepository.save(l);
 
-        Message message = new Message();
-        message.setTemplate_id("j5OIz1iUpiBpx_80xtO0fmmc92gL0MFqU81GH2mTe_Y");
-        message.setTouser(id);
-        DataDetail da = new DataDetail();
-        da.setThing1(new ValueDetail("时光相册签到"));
-        da.setDate2(new ValueDetail(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)));
-        da.setThing3(new ValueDetail(detail1));
-        da.setThing3(new ValueDetail("签到结果"));
-        message.setData(da);
-        messageService.sendMessage(JSON.toJSONString(message));
+        messageService.sendMessage(id, "时光相册签到", detail1);
         return result;
 
     }

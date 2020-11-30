@@ -1,7 +1,11 @@
 
 package com.laisen.autojob.core.service;
 
+import com.alibaba.fastjson.JSON;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.laisen.autojob.core.service.dto.DataDetail;
+import com.laisen.autojob.core.service.dto.Message;
+import com.laisen.autojob.core.service.dto.ValueDetail;
 import io.vavr.control.Try;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.MediaType;
@@ -11,6 +15,8 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 /**
@@ -41,14 +47,26 @@ public class MessageService {
         }).getOrElse("");
     }
 
-    public void sendMessage(String message) {
+    public void sendMessage(String userId, String type, String detail) {
+        Message message = new Message();
+        message.setTemplate_id("j5OIz1iUpiBpx_80xtO0fmmc92gL0MFqU81GH2mTe_Y");
+        message.setTouser(userId);
+        DataDetail da = new DataDetail();
+        da.setThing1(new ValueDetail(type));
+        da.setDate2(new ValueDetail(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)));
+        da.setThing3(new ValueDetail(detail));
+        da.setThing4(new ValueDetail("签到结果"));
+        message.setData(da);
+
         String token = getToken();
+        //String url="http://localhost:8080/logs/send";
         String url = "https://api.weixin.qq.com/cgi-bin/message/custom/send?access_token=" + token;
         OkHttpClient client = new OkHttpClient();
-        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), message);
+        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), JSON.toJSONString(message));
         Request request = new Request.Builder()
+                .url(url)
                 .post(body)
-                .url(url).build();
+                .build();
         Try.of(() -> client.newCall(request).execute());
     }
 }

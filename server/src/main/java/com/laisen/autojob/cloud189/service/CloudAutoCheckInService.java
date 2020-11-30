@@ -13,9 +13,6 @@ import com.laisen.autojob.core.constants.Constants;
 import com.laisen.autojob.core.entity.EventLog;
 import com.laisen.autojob.core.repository.EventLogRepository;
 import com.laisen.autojob.core.service.MessageService;
-import com.laisen.autojob.core.service.dto.DataDetail;
-import com.laisen.autojob.core.service.dto.Message;
-import com.laisen.autojob.core.service.dto.ValueDetail;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
@@ -37,8 +34,6 @@ import javax.crypto.Cipher;
 import java.security.KeyFactory;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.X509EncodedKeySpec;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -100,16 +95,8 @@ public class CloudAutoCheckInService {
         eventLog.setDetail(detail);
         eventLogRepository.save(eventLog);
 
-        Message message = new Message();
-        message.setTemplate_id("j5OIz1iUpiBpx_80xtO0fmmc92gL0MFqU81GH2mTe_Y");
-        message.setTouser(userId);
-        DataDetail da = new DataDetail();
-        da.setThing1(new ValueDetail("天翼网盘签到"));
-        da.setDate2(new ValueDetail(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME)));
-        da.setThing3(new ValueDetail(detail));
-        da.setThing3(new ValueDetail("签到结果"));
-        message.setData(da);
-        messageService.sendMessage(JSON.toJSONString(message));
+        messageService.sendMessage(userId, "天翼网盘签到", detail);
+
     }
 
     private String login(String username, String password) throws Exception {

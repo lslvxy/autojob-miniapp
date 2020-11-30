@@ -4,6 +4,7 @@ import com.laisen.autojob.cloud189.service.CloudAutoCheckInService;
 import com.laisen.autojob.core.constants.Constants;
 import com.laisen.autojob.core.entity.EventLog;
 import com.laisen.autojob.core.repository.EventLogRepository;
+import com.laisen.autojob.core.service.MessageService;
 import com.laisen.autojob.everphoto.service.AutoCheckInService;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -19,6 +20,8 @@ public class QuartzJob extends QuartzJobBean {
     EventLogRepository      eventLogRepository;
     @Autowired
     CloudAutoCheckInService cloudAutoCheckInService;
+    @Autowired
+    MessageService          messageService;
 
     @Override
     protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
@@ -30,9 +33,12 @@ public class QuartzJob extends QuartzJobBean {
             } catch (Exception e) {
                 EventLog l = new EventLog();
                 l.setUserId(id);
-                l.setDetail("签到失败," + e.getMessage());
+                String detail = "签到失败," + e.getMessage();
+                l.setDetail(detail);
                 l.setType(Constants.LOG_EVERPHOTO);
                 eventLogRepository.save(l);
+                messageService.sendMessage(id, "时光相册签到", detail);
+
             }
         } else if (name.startsWith(Constants.JOB_PREFIX_CLOUD189)) {
             String id = name.replace(Constants.JOB_PREFIX_CLOUD189, "");
@@ -41,9 +47,11 @@ public class QuartzJob extends QuartzJobBean {
             } catch (Exception e) {
                 EventLog l = new EventLog();
                 l.setUserId(id);
-                l.setDetail("签到失败," + e.getMessage());
+                String detail = "签到失败," + e.getMessage();
+                l.setDetail(detail);
                 l.setType(Constants.LOG_CLOUD189);
                 eventLogRepository.save(l);
+                messageService.sendMessage(id, "天翼网盘签到", detail);
             }
         }
 
