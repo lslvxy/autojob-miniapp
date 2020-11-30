@@ -94,6 +94,7 @@ public class CloudAutoCheckInService {
         String detail = checkInResult + ";" + lottery + ";" + lottery1;
         eventLog.setDetail(detail);
         eventLogRepository.save(eventLog);
+        log.info("天翼网盘签到:{}", detail);
 
         messageService.sendMessage(userId, "天翼网盘签到", detail);
 

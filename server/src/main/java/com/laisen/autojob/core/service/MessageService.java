@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * @author lise
@@ -67,6 +68,10 @@ public class MessageService {
                 .url(url)
                 .post(body)
                 .build();
-        Try.of(() -> client.newCall(request).execute());
+        AtomicReference<Response> response = new AtomicReference<>();
+        Try.of(() -> {
+            response.set(client.newCall(request).execute());
+            return response;
+        }).andFinally(() -> response.get().close());
     }
 }

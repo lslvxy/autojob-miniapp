@@ -79,6 +79,7 @@ public class AutoCheckInService {
         l.setDetail(detail1);
         l.setType(Constants.LOG_EVERPHOTO);
         eventLogRepository.save(l);
+        log.info("时光相册签到:{}", detail1);
 
         messageService.sendMessage(id, "时光相册签到", detail1);
         return result;

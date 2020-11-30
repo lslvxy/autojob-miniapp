@@ -52,14 +52,6 @@ Page({
     }
   },
   getUserInfo: function (e) {
-    if (!app.globalData.openId) {
-      wx.showToast({
-        title: '服务器异常',
-        icon: 'none',
-        duration: 2000
-      })
-      return false;
-    }
     if (e.detail.userInfo) {
       app.globalData.userInfo = e.detail.userInfo
       this.setData({

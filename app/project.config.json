@@ -39,7 +39,7 @@
     "bundle": false
   },
   "compileType": "miniprogram",
-  "libVersion": "2.14.0",
+  "libVersion": "2.14.1",
   "appid": "wx127525214d4abbe0",
   "projectname": "AutoJob",
   "debugOptions": {
