@@ -1,13 +1,13 @@
-package com.laisen.autojob.cloud189.controller;
+package com.laisen.autojob.modules.cloud189.controller;
 
-import com.laisen.autojob.cloud189.entity.CloudAccount;
-import com.laisen.autojob.cloud189.repository.CloudAccountRepository;
-import com.laisen.autojob.cloud189.util.AESUtil;
+import com.laisen.autojob.modules.cloud189.entity.CloudAccount;
+import com.laisen.autojob.modules.cloud189.repository.CloudAccountRepository;
+import com.laisen.autojob.modules.cloud189.util.AESUtil;
 import com.laisen.autojob.core.constants.Constants;
 import com.laisen.autojob.core.controller.BaseController;
 import com.laisen.autojob.core.entity.EventLog;
 import com.laisen.autojob.core.repository.EventLogRepository;
-import com.laisen.autojob.everphoto.dto.EverPhotoJobDTO;
+import com.laisen.autojob.modules.everphoto.dto.EverPhotoJobDTO;
 import com.laisen.autojob.quartz.QuartzJob;
 import com.laisen.autojob.quartz.entity.QuartzBean;
 import com.laisen.autojob.quartz.repository.QuartzBeanRepository;
@@ -139,7 +139,7 @@ public class Cloud189Controller extends BaseController {
     public List getLogs(@RequestBody EverPhotoJobDTO dto) {
         EventLog el = new EventLog();
         el.setUserId(dto.getUserId());
-        el.setType(Constants.LOG_CLOUD189);
+        el.setType(Constants.LOG_TYPE_CLOUD189);
         Example<EventLog> ex = Example.of(el);
         PageRequest page = PageRequest.of(0, 20, Sort.by(Direction.DESC, "gmtCreate"));
         List<EventLog> logs = eventLogRepository.findAll(ex, page).toList();

@@ -1,4 +1,4 @@
-package com.laisen.autojob.cloud189.entity;
+package com.laisen.autojob.modules.cloud189.entity;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;

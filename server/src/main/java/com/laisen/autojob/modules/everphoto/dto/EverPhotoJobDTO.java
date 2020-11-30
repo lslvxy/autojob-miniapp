@@ -1,9 +1,9 @@
-package com.laisen.autojob.cloud189.dto;
+package com.laisen.autojob.modules.everphoto.dto;
 
 import lombok.Data;
 
 @Data
-public class Cloud189JobDTO {
+public class EverPhotoJobDTO {
 
     private String  userId;
     private String  account;

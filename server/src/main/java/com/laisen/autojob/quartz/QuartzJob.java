@@ -1,11 +1,11 @@
 package com.laisen.autojob.quartz;
 
-import com.laisen.autojob.cloud189.service.CloudAutoCheckInService;
+import com.laisen.autojob.modules.cloud189.service.CloudAutoCheckInService;
 import com.laisen.autojob.core.constants.Constants;
 import com.laisen.autojob.core.entity.EventLog;
 import com.laisen.autojob.core.repository.EventLogRepository;
 import com.laisen.autojob.core.service.MessageService;
-import com.laisen.autojob.everphoto.service.AutoCheckInService;
+import com.laisen.autojob.modules.everphoto.service.AutoCheckInService;
 import lombok.extern.slf4j.Slf4j;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
@@ -39,7 +39,7 @@ public class QuartzJob extends QuartzJobBean {
                 l.setUserId(id);
                 String detail = "签到失败," + e.getMessage();
                 l.setDetail(detail);
-                l.setType(Constants.LOG_EVERPHOTO);
+                l.setType(Constants.LOG_TYPE_EVERPHOTO);
                 eventLogRepository.save(l);
                 messageService.sendMessage(id, "时光相册签到", detail);
                 log.error("时光相册签到:{}", detail);
@@ -54,7 +54,7 @@ public class QuartzJob extends QuartzJobBean {
                 l.setUserId(id);
                 String detail = "签到失败," + e.getMessage();
                 l.setDetail(detail);
-                l.setType(Constants.LOG_CLOUD189);
+                l.setType(Constants.LOG_TYPE_CLOUD189);
                 eventLogRepository.save(l);
                 messageService.sendMessage(id, "天翼网盘签到", detail);
                 log.error("天翼网盘签到:{}", detail);

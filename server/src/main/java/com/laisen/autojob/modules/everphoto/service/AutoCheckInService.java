@@ -1,4 +1,4 @@
-package com.laisen.autojob.everphoto.service;
+package com.laisen.autojob.modules.everphoto.service;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -6,9 +6,9 @@ import com.laisen.autojob.core.constants.Constants;
 import com.laisen.autojob.core.entity.EventLog;
 import com.laisen.autojob.core.repository.EventLogRepository;
 import com.laisen.autojob.core.service.MessageService;
-import com.laisen.autojob.everphoto.Result;
-import com.laisen.autojob.everphoto.entity.EverPhotoAccount;
-import com.laisen.autojob.everphoto.repository.EverPhotoAccountRepository;
+import com.laisen.autojob.modules.everphoto.Result;
+import com.laisen.autojob.modules.everphoto.entity.EverPhotoAccount;
+import com.laisen.autojob.modules.everphoto.repository.EverPhotoAccountRepository;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -77,7 +77,7 @@ public class AutoCheckInService {
         detail.add("明日可得:" + (result.getTomorrow_reward() / 1024 / 1024) + "MB");
         String detail1 = detail.stream().collect(Collectors.joining("；"));
         l.setDetail(detail1);
-        l.setType(Constants.LOG_EVERPHOTO);
+        l.setType(Constants.LOG_TYPE_EVERPHOTO);
         eventLogRepository.save(l);
         log.info("时光相册签到:{}", detail1);
 

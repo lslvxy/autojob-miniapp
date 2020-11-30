@@ -1,12 +1,12 @@
-package com.laisen.autojob.everphoto.controller;
+package com.laisen.autojob.modules.everphoto.controller;
 
 import com.laisen.autojob.core.constants.Constants;
 import com.laisen.autojob.core.controller.BaseController;
 import com.laisen.autojob.core.entity.EventLog;
 import com.laisen.autojob.core.repository.EventLogRepository;
-import com.laisen.autojob.everphoto.dto.EverPhotoJobDTO;
-import com.laisen.autojob.everphoto.entity.EverPhotoAccount;
-import com.laisen.autojob.everphoto.repository.EverPhotoAccountRepository;
+import com.laisen.autojob.modules.everphoto.dto.EverPhotoJobDTO;
+import com.laisen.autojob.modules.everphoto.entity.EverPhotoAccount;
+import com.laisen.autojob.modules.everphoto.repository.EverPhotoAccountRepository;
 import com.laisen.autojob.quartz.QuartzJob;
 import com.laisen.autojob.quartz.entity.QuartzBean;
 import com.laisen.autojob.quartz.repository.QuartzBeanRepository;
@@ -140,7 +140,7 @@ public class EverphotoController extends BaseController {
         EverPhotoAccount everPhotoAccount = everPhotoAccountRepository.findByUserId(dto.getUserId());
         EventLog el = new EventLog();
         el.setUserId(dto.getUserId());
-        el.setType(Constants.LOG_EVERPHOTO);
+        el.setType(Constants.LOG_TYPE_EVERPHOTO);
         Example<EventLog> ex = Example.of(el);
         PageRequest page = PageRequest.of(0, 20, Sort.by(Direction.DESC, "gmtCreate"));
         List<EventLog> logs = eventLogRepository.findAll(ex, page).toList();

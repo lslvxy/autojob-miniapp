@@ -1,8 +1,5 @@
-/*
- * Alipay.com Inc.
- * Copyright (c) 2004-2020 All Rights Reserved.
- */
-package com.laisen.autojob.cloud189.util;
+
+package com.laisen.autojob.modules.cloud189.util;
 
 import org.apache.commons.codec.binary.Base64;
 

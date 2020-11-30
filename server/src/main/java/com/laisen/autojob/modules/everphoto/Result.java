@@ -1,4 +1,4 @@
-package com.laisen.autojob.everphoto;
+package com.laisen.autojob.modules.everphoto;
 
 import lombok.Data;
 

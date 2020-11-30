@@ -1,6 +1,6 @@
-package com.laisen.autojob.everphoto.repository;
+package com.laisen.autojob.modules.everphoto.repository;
 
-import com.laisen.autojob.everphoto.entity.EverPhotoAccount;
+import com.laisen.autojob.modules.everphoto.entity.EverPhotoAccount;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

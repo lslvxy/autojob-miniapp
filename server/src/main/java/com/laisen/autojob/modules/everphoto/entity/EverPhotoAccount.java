@@ -1,4 +1,4 @@
-package com.laisen.autojob.everphoto.entity;
+package com.laisen.autojob.modules.everphoto.entity;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;

@@ -1,6 +1,6 @@
-package com.laisen.autojob.cloud189.repository;
+package com.laisen.autojob.modules.cloud189.repository;
 
-import com.laisen.autojob.cloud189.entity.CloudAccount;
+import com.laisen.autojob.modules.cloud189.entity.CloudAccount;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
