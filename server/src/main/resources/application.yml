@@ -8,11 +8,10 @@ spring:
     time-zone: Asia/Shanghai
   # DATABASE CONFIG
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:file:~/autojob/db
-#    url: jdbc:mysql://127.0.0.1:3306/ssyuntu?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/autojob?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: r00t@123
+    password: SnowShmily@1314
     hikari:
       minimum-idle: 10
       maximum-pool-size: 25
