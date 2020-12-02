@@ -95,7 +95,7 @@ public class CloudAutoCheckInService {
         eventLog.setDetail(detail);
         eventLogRepository.save(eventLog);
         //log.info("天翼网盘签到:{}", detail);
-        LogUtils.info(log, userId, Constants.LOG_MODULES_EVERPHOTO, Constants.LOG_OPERATE_LOTTERY, detail);
+        LogUtils.info(log, userId, Constants.LOG_MODULES_CLOUD189, Constants.LOG_OPERATE_LOTTERY, detail);
 
         messageService.sendMessage(userId, "天翼网盘签到", detail);
 
