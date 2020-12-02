@@ -39,7 +39,7 @@ public class QuartzJob extends QuartzJobBean {
                 EventLog l = new EventLog();
                 l.setUserId(id);
                 String detail = "签到失败," + e.getMessage();
-                l.setDetail(detail);
+                l.setDetail(detail.length() > 255 ? detail.substring(0, 250) : detail);
                 l.setType(Constants.LOG_TYPE_EVERPHOTO);
                 eventLogRepository.save(l);
                 messageService.sendMessage(id, "时光相册签到", detail);
@@ -53,7 +53,7 @@ public class QuartzJob extends QuartzJobBean {
                 EventLog l = new EventLog();
                 l.setUserId(id);
                 String detail = "签到失败," + e.getMessage();
-                l.setDetail(detail);
+                l.setDetail(detail.length() > 255 ? detail.substring(0, 250) : detail);
                 l.setType(Constants.LOG_TYPE_CLOUD189);
                 eventLogRepository.save(l);
                 messageService.sendMessage(id, "天翼网盘签到", detail);

@@ -80,7 +80,7 @@ Page({
               title: '配置成功'
             })
             wx.requestSubscribeMessage({
-              tmplIds: ['UYmCUg__IsjSMNPEhsHYx440P84NanoSS1fABW2WApw'],
+              tmplIds: app.globalData.tmplIds,
               success(res) {
 
               }

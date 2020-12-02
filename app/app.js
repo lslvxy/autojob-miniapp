@@ -67,9 +67,13 @@ App({
     })
   },
   globalData: {
+    tmplIds: ['UYmCUg__IsjSMNPEhsHYx440P84NanoSS1fABW2WApw'],
     openId: null,
     userInfo: null,
-    baseUrl: 'https://autojob.laisen.site'
+    // baseUrl: 'https://laisen.site'
+    baseUrl: 'https://autojob.laysan.site'
     // baseUrl: 'http://192.168.1.6:8080'
+    // baseUrl: 'http://47.96.23.144:8080'
+
   }
 })
