@@ -1,11 +1,11 @@
 <!--index.wxml-->
 <view class="container">
-    <view>
-      <image style="width: 200px; height: 200px; background-color: #eeeeee;"  src="/assets/logo.jpeg"></image>
-    </view>
-    <h2>AutoJob</h2>   
+  <view>
+    <image style="width: 200px; height: 200px; background-color: #eeeeee;" src="/assets/logo.jpeg"></image>
+  </view>
+  <h2>AutoJob</h2>
 
   <view class="userinfo">
-    <button open-type="getUserInfo" bindgetuserinfo="getUserInfo" > 开始使用 </button>
+    <button bindtap="getUserInfo"> 开始使用 </button>
   </view>
 </view>
