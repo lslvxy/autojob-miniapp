@@ -5,8 +5,9 @@
   </view>
   <view class="page_bd">
     <label class="weui-cell weui-check__label" wx:for="{{logList}}" wx:key="{{item.id}}">
-      <view class="weui-cell__bd" style="white-space:pre-wrap">{{item.gmtCreate}}\n
-        {{item.detail}}</view>
+      <view class="weui-cell__bd" style="white-space:pre-wrap" >{{item.gmtCreate}}\n
+        {{item.detail}}
+      </view>
     </label>
   </view>
 </view>
