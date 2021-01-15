@@ -89,13 +89,11 @@ App({
   globalData: {
     tmplIds: ['UYmCUg__IsjSMNPEhsHYx440P84NanoSS1fABW2WApw'],
     modules:{
-      "everphoto":"时光相册",
-      "cloud189":"天翼网盘",
     },
     userInfo: null,
     // baseUrl: 'https://laisen.site'
-    baseUrl: 'https://autojob.laysan.site'
-    // baseUrl: 'http://127.0.0.1:8080'
+    // baseUrl: 'https://autojob.laysan.site'
+    baseUrl: 'http://127.0.0.1:8080'
     // baseUrl: 'http://47.96.23.144:8080'
 
   }

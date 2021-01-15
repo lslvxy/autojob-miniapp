@@ -1,18 +1,53 @@
 // pages/main/main.js
+const app = getApp()
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    typeList: [{
+        name: '时光相册',
+        type: 'everphoto',
+        icon: "/assets/sg.jpeg"
+      },
+      {
+        type: 'cloud189',
+        name: '天翼云盘',
+        icon: "/assets/ty.png"
+      },
+    ]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var _this = this;
+    wx.request({
+      url: app.globalData.baseUrl + '/sys/typeList',
+      header: {
+        'content-type': 'application/json' // 默认值
+      },
+      success(res) {
+        if (res.statusCode != 200) {
+          return false;
+        }
+        var typeList = res.data;
+        _this.setData({
+          typeList: typeList,
+        })
+        var mods = {};
+        typeList.forEach(v => {
+          mods[v.type] = v.name;
+        });
+        app.globalData.modules = {
+          ...mods
+        };
 
+      }
+    })
   },
 
   /**

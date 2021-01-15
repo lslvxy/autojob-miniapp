@@ -8,14 +8,9 @@
         </image>
     </mp-cell>
     </mp-cells>
-    <mp-cells title="支持列表">
-      <mp-cell link hover url="/pages/config/config?type=everphoto" value="时光相册" footer="配置">
-        <image slot="icon" src="/assets/sg.jpeg"
-          style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;">
-        </image>
-      </mp-cell>
-      <mp-cell link hover url="/pages/config/config?type=cloud189" value="天翼网盘" footer="配置">
-        <image slot="icon" src="/assets/ty.png"
+    <mp-cells title="支持列表" >
+      <mp-cell link hover  url="{{item.status=='ok'?'/pages/config/config?type='+item.type :''}}" value="{{item.name}}" footer="{{item.status=='ok'?'配置':item.status}}" wx:for="{{typeList}}" wx:key="{{item.type}}">
+        <image slot="icon" src="{{item.icon}}"
           style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;">
         </image>
       </mp-cell>
