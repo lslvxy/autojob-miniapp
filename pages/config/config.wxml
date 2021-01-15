@@ -1,0 +1,47 @@
+<!--pages/everphoto/everphoto.wxml-->
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+  <view class="page__hd">
+    <view class="page__title" style="margin-left:1rem">配置账号</view>
+  </view>
+  <mp-cells>
+
+    <mp-cell link hover value="添加账号" footer="" bindtap="addAccount">
+      <mp-icon slot="icon" icon="add" color="#07c160" size="{{25}}"></mp-icon>
+    </mp-cell>
+    <mp-cell link hover url="/pages/logs/logs?type={{type}}" value="查看日志" footer="">
+      <mp-icon slot="icon" icon="note" color="#07c160" size="{{25}}"></mp-icon>
+    </mp-cell>
+  </mp-cells>
+  <view class="page_bd" wx:for="{{accountList}}" wx:for-item="account" wx:key="account.id">
+    <mp-form id="form_{{account._id}}" rules="{{rules}}" models="{{account}}">
+
+      <mp-cells title="账号 {{index+1}}">
+        
+        <mp-cell prop="account" title="账号" ext-class="">
+          <input bindinput="formInputChange" type="number" value="{{account.account}}" data-id="{{account.id}}"
+            data-field="account" class="weui-input" placeholder="请输入账号" />
+        </mp-cell>
+        <mp-cell prop="password" title="密码" ext-class="">
+          <input bindinput="formInputChange" type="password" value="{{account.password}}" data-id="{{account.id}}"
+            data-field="password" class="weui-input" placeholder="请输入密码" />
+        </mp-cell>
+        <mp-cell prop="time" title="执行时间" ext-class="">
+          <picker data-id="{{account.id}}" data-field="time" mode="time" value="{{account.time}}"
+            bindchange="formInputChange">
+            <view class="weui-input">{{account.time}}</view>
+          </picker>
+        </mp-cell>
+        <mp-cell link hover value="删除" footer="" data-id="{{account.id}}" bindtap="deleteAccount" ext-class="del">
+          <mp-icon slot="icon" icon="delete" color="red" size="{{20}}"></mp-icon>
+        </mp-cell>
+      </mp-cells>
+    </mp-form>
+   
+  </view>
+  <view style="margin:1rem">
+    <button class="weui-btn" form-type="submit" type="primary" bindtap="submitForm">保存</button>
+  </view>
+  
+
+</view>

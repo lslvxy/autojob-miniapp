@@ -13,7 +13,7 @@ App({
         _this.globalData.openId = value;
         if (!value) {
           wx.request({
-            url: _this.globalData.baseUrl + '/user/getopenid', //仅为示例，并非真实的接口地址
+            url: _this.globalData.baseUrl + '/user/getopenid', 
             data: {
               code: res.code,
             },
@@ -26,7 +26,7 @@ App({
 
               _this.globalData.openId = openId;
               // wx.request({
-              //   url: _this.globalData.baseUrl + '/user/update', //仅为示例，并非真实的接口地址
+              //   url: _this.globalData.baseUrl + '/user/update', 
               //   data: {
               //     openId: openId,
               //     nickName: "",
@@ -49,7 +49,7 @@ App({
               //           // 可以将 res 发送给后台解码出 unionId
               //           _this.globalData.userInfo = res.userInfo
               //           wx.request({
-              //             url: _this.globalData.baseUrl + '/user/update', //仅为示例，并非真实的接口地址
+              //             url: _this.globalData.baseUrl + '/user/update', 
               //             data: {
               //               openId: openId,
               //               nickName: res.userInfo.nickName,
@@ -88,10 +88,14 @@ App({
   },
   globalData: {
     tmplIds: ['UYmCUg__IsjSMNPEhsHYx440P84NanoSS1fABW2WApw'],
+    modules:{
+      "everphoto":"时光相册",
+      "cloud189":"天翼网盘",
+    },
     userInfo: null,
     // baseUrl: 'https://laisen.site'
     baseUrl: 'https://autojob.laysan.site'
-    // baseUrl: 'http://192.168.1.6:8080'
+    // baseUrl: 'http://127.0.0.1:8080'
     // baseUrl: 'http://47.96.23.144:8080'
 
   }

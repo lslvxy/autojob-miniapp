@@ -1,0 +1,25 @@
+<!--pages/everphoto/everphoto.wxml-->
+<view class="page" xmlns:wx="http://www.w3.org/1999/xhtml">
+  <mp-toptips msg="{{error}}" type="error" show="{{error}}"></mp-toptips>
+  <view class="page__hd">
+    <view class="page__title" style="margin-left:1rem">配置SCKEY</view>
+  </view>
+  <view class="page_bd">
+    <mp-form id="form" >
+      <mp-cells title="" footer="">
+        <mp-cell prop="account" title="SCKEY" ext-class="">
+          <input bindinput="formInputChange" value="{{sckey}}" data-field="sckey" class="weui-input"
+            placeholder="SCKEY" />
+        </mp-cell>
+      </mp-cells>
+    </mp-form>
+
+  </view>
+  <view style="margin-top:1rem">
+    <button class="weui-btn" form-type="submit" type="primary" bindtap="submitForm">保存</button>
+  </view>
+  <view style="padding:1rem;font-size:0.8rem">
+    Tips: 请到Server酱官网http://sc.ftqq.com/ 自行配置SCKEY
+  </view>
+
+</view>

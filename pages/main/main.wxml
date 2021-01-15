@@ -1,13 +1,20 @@
 <!--pages/main/main.wxml-->
 <view class="page">
   <view class="page_bd">
+    <mp-cells title="Server酱">
+    <mp-cell link hover url="/pages/server/server"  value="Server酱" footer="配置">
+      <image slot="icon" src="/assets/server.png"
+          style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;">
+        </image>
+    </mp-cell>
+    </mp-cells>
     <mp-cells title="支持列表">
-      <mp-cell link hover url="/pages/everphoto/everphoto" value="时光相册" footer="配置">
+      <mp-cell link hover url="/pages/config/config?type=everphoto" value="时光相册" footer="配置">
         <image slot="icon" src="/assets/sg.jpeg"
           style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;">
         </image>
       </mp-cell>
-      <mp-cell link hover url="/pages/cloud189/cloud189" value="天翼网盘" footer="配置">
+      <mp-cell link hover url="/pages/config/config?type=cloud189" value="天翼网盘" footer="配置">
         <image slot="icon" src="/assets/ty.png"
           style="margin-right: 16px;vertical-align: middle;width:20px; height: 20px;">
         </image>
