@@ -59,8 +59,13 @@ Page({
     //     hasUserInfo: true
     //   })
     // }
-    wx.navigateTo({
-      url: '../main/main'
+    wx.requestSubscribeMessage({
+      tmplIds: app.globalData.tmplIds,
+      complete(res) {
+        wx.navigateTo({
+          url: '../main/main'
+        })
+      }
     })
   }
 })
