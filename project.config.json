@@ -40,7 +40,7 @@
     "useApiHostProcess": false
   },
   "compileType": "miniprogram",
-  "libVersion": "2.14.1",
+  "libVersion": "2.14.3",
   "appid": "wx127525214d4abbe0",
   "projectname": "AutoJob",
   "debugOptions": {

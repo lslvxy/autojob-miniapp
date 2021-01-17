@@ -110,7 +110,7 @@ Page({
         "id":"",
         "account":"",
         "password":"",
-        "time":"00:00",
+        "time":app.dateFormat("HH:MM",new Date()),
       }]
     })
   },
