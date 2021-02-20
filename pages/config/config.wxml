@@ -19,7 +19,7 @@
       <mp-cells title="账号 {{index+1}}">
         
         <mp-cell prop="account" title="账号" ext-class="">
-          <input bindinput="formInputChange" type="number" value="{{account.account}}" data-id="{{account.id}}"
+          <input bindinput="formInputChange" value="{{account.account}}" data-id="{{account.id}}"
             data-field="account" class="weui-input" placeholder="请输入账号" />
         </mp-cell>
         <mp-cell prop="password" title="密码" ext-class="">
