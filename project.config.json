@@ -40,7 +40,7 @@
     "useApiHostProcess": false
   },
   "compileType": "miniprogram",
-  "libVersion": "2.14.3",
+  "libVersion": "2.19.2",
   "appid": "wx127525214d4abbe0",
   "projectname": "AutoJob",
   "debugOptions": {
@@ -51,6 +51,7 @@
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
   "cloudfunctionTemplateRoot": "cloudfunctionTemplate",
+  "cloudfunctionRoot": "./functions/",
   "condition": {
     "search": {
       "list": []
